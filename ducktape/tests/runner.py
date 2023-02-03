@@ -233,7 +233,7 @@ class TestRunner(object):
                         event = self.receiver.recv(timeout=self.session_context.test_runner_timeout)
                         self._handle(event)
                     except Exception as e:
-                        err_str = "Exception receiving message: %s: %s" % (str(type(e)), str(e))
+                        err_str = "Exception receiving message: %s: %s, active_tests: \n %s \n" % (str(type(e)), str(e), self.active_tests_debug())
                         err_str += "\n" + traceback.format_exc(limit=16)
                         self._log(logging.ERROR, err_str)
 
@@ -253,6 +253,10 @@ class TestRunner(object):
         self.receiver.close()
 
         return self.results
+
+    def active_tests_debug(self):
+        """Returns debug information about currently active tests"""
+        return list(self.active_tests.keys())
 
     def _run_single_test(self, test_context):
         """Start a test runner client in a subprocess"""
