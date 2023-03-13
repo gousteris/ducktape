@@ -125,10 +125,15 @@ class Matrix(Mark):
         return "MATRIX"
 
     def apply(self, seed_context, context_list):
+        empty_parametrization = True
         for injected_args in cartesian_product_dict(self.injected_args):
+            empty_parametrization = False
             injected_fun = _inject(**injected_args)(seed_context.function)
             context_list.insert(0, seed_context.copy(function=injected_fun, injected_args=injected_args))
-
+        # forgive empty parametrization and mark test as IGNORE
+        if empty_parametrization and not context_list:
+            seed_context.ignore = True
+            context_list.insert(0, seed_context)
         return context_list
 
     def __eq__(self, other):
