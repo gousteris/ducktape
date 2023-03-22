@@ -11,6 +11,6 @@ jobs:
         with:
           python-version: '3.8'
       - name: Install Tox
-        run: pip install tox
+        run: pip install tox==3.28.0
       - name: Run Tox
         run: tox -e style,py38,cover
