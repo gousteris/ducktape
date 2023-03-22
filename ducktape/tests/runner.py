@@ -233,7 +233,8 @@ class TestRunner(object):
                         event = self.receiver.recv(timeout=self.session_context.test_runner_timeout)
                         self._handle(event)
                     except Exception as e:
-                        err_str = "Exception receiving message: %s: %s, active_tests: \n %s \n" % (str(type(e)), str(e), self.active_tests_debug())
+                        err_str = "Exception receiving message: %s: %s" % (str(type(e)), str(e))
+                        err_str += ", active_tests: \n %s \n" % (self.active_tests_debug())
                         err_str += "\n" + traceback.format_exc(limit=16)
                         self._log(logging.ERROR, err_str)
 
